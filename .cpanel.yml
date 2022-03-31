@@ -1,0 +1,5 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/exhortp1/public_html/ustad
+    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp * $DEPLOYPATH
