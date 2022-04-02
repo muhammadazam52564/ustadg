@@ -221,6 +221,22 @@ class MainController extends Controller
                     ->whereIn('status', $status)
                     -> with('items')
                     ->get();
+
+        foreach ($orders as $order) {
+            $total = 0;
+            foreach ($order->items as $item) {
+                $service = Service::find($item->service_id);
+                $item->service = $service->name;
+                $item->amount  = $item->number * $service->price;
+                $total = $total + $item->amount;
+                unset($item->created_at);
+                unset($item->updated_at);
+                unset($item->order_id);
+                unset($item->service_id);
+            }
+            unset($order->selected_address);
+            $order->total_amount = $total;
+        }
         // orderItems
         // service
         return response()->json([
