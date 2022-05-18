@@ -20,14 +20,5 @@ class CitySeeder extends Seeder
         City::create([
             'name'  => 'islamabad',
         ]);
-        City::create([
-            'name'  => 'karachi',
-        ]);
-        City::create([
-            'name'  => 'peshawar',
-        ]);
-        City::create([
-            'name'  => 'quetta',
-        ]);
     }
 }
