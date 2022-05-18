@@ -1,5 +1,5 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/exhortp1/public_html/ustadg
+    - export DEPLOYPATH=/home/exhortp1/public_html/ustadg/
     - /bin/cp -R * $DEPLOYPATH
     - /bin/cp * $DEPLOYPATH

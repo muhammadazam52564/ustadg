@@ -216,13 +216,17 @@ class MainController extends Controller
         if ($request->status == 'past') {
             $status = ['canceled', 'removed', 'completed'];
         }
-        $orders = Order::select('id', 'status', 'date', 'time', 'selected_address')
+        $orders = Order::select('id', 'status', 'date', 'time', 'selected_address', 'ordernumber', 'scadualed')
                     ->where('user_id', $request->user_id)
                     ->whereIn('status', $status)
                     -> with('items')
                     ->get();
 
         foreach ($orders as $order) {
+            $myservice = Service::find($order->items[0]->service_id);
+            $sub_category = SubCategory::find($myservice->sub_category_id);
+            $order->sub_category =  $sub_category->name;
+            $order->address = Address::where('id', $order->selected_address)->select('id', 'title', 'city', 'area', 'street')->first();
             $total = 0;
             foreach ($order->items as $item) {
                 $service = Service::find($item->service_id);

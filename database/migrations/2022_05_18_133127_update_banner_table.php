@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBannersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateBannersTable extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
-            $table->id();
-            $table->string('image')->nullable();
-            $table->string('city')->nullable();
-            $table->timestamps();
+        Schema::table('banners', function (Blueprint $table) {
+            $table->unsignedBigInteger('domain_id')->nullable();
+            $table->foreign('domain_id')->references('id')->on('domains')->onDelete('cascade');
         });
     }
 
@@ -28,6 +26,6 @@ class CreateBannersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banners');
+        //
     }
-}
+};

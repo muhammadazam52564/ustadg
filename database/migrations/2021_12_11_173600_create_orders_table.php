@@ -13,19 +13,25 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        // status pending
-        // status accepted
-        // status completed
-        // status canceled
-        // status removed
+        //  status
+            // status pending
+            // status accepted
+            // status completed
+            // status canceled
+            // status removed
+        //
+        //  Type
+            //  Scadualed
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('ordernumber')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')
             ->on('users')->onDelete('cascade');
             $table->string('status')->default('pending');
             $table->date('date')->nullable();
             $table->time('time')->nullable();
+            $table->string('scadualed')->default('0');
             $table->unsignedBigInteger('selected_address')->nullable();
             $table->foreign('selected_address')->references('id')->on('addresses')->onDelete('cascade');
             $table->timestamps();

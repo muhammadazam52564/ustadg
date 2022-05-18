@@ -16,21 +16,18 @@ class CategorySeeder extends Seeder
         for ($i=0; $i < 5; $i++) {
             Category::create([
                 'name'          => 'category '.$i,
-                'name_urdu'     => 'قسم '.$i,
                 'image'         => 'images/categories/category.jpg',
                 'city'          => 'lahore'
             ]);
 
             Category::create([
                 'name'          => 'category 2'.$i,
-                'name_urdu'     => 'قسم 2'.$i,
                 'image'         => 'images/categories/category.jpg',
                 'city'          => 'lahore'
             ]);
 
             Category::create([
                 'name'          => 'category 3'.$i,
-                'name_urdu'     => 'قسم 3'.$i,
                 'image'         => 'images/categories/category.jpg',
                 'city'          => 'lahore'
             ]);

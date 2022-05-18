@@ -408,6 +408,7 @@ class AuthController extends Controller
             }
         }
     }
+    
     public function add_address(Request $request)
     {
         try{

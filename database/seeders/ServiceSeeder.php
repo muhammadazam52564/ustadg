@@ -22,22 +22,35 @@ class ServiceSeeder extends Seeder
                 'price_type'      => 'fixed',
                 'orders'          => '12',
                 'price'           => '120',
-                'city'            => 'lahore'
+                'city'            => 'lahore',
+                'old_price'       => '150'
             ]);
 
             Service::create([
-                'sub_category_id' => 2,
+                'sub_category_id' => 1,
                 'name'            => 'service 1'.$i,
                 'image'           => 'images/services/service.jpg',
                 'rate'            => '5',
                 'price_type'      => 'variable',
                 'orders'          => '12',
                 'price'           => '120',
+                'city'            => 'lahore',
+                'old_price'       => '150'
+            ]);
+
+            Service::create([
+                'sub_category_id' => 2,
+                'name'            => 'service 2'.$i,
+                'image'           => 'images/services/service.jpg',
+                'rate'            => '5',
+                'price_type'      => 'fixed',
+                'orders'          => '12',
+                'price'           => '120',
                 'city'            => 'lahore'
             ]);
 
             Service::create([
-                'sub_category_id' => 3,
+                'sub_category_id' => 2,
                 'name'            => 'service 2'.$i,
                 'image'           => 'images/services/service.jpg',
                 'rate'            => '5',

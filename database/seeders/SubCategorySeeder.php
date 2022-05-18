@@ -13,9 +13,37 @@ class SubCategorySeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 7; $i++) {
             SubCategory::create([
                 'category_id'   => 1,
+                'name'          => 'subcategory '.$i,
+                'image'         => 'images/subcategories/subcategory.jpg',
+                'city'          => 'lahore'
+            ]);
+
+            SubCategory::create([
+                'category_id'   => 1,
+                'name'          => 'subcategory 2'.$i,
+                'image'         => 'images/subcategories/subcategory.jpg',
+                'city'          => 'lahore'
+            ]);
+
+            SubCategory::create([
+                'category_id'   => 1,
+                'name'          => 'subcategory 3'.$i,
+                'image'         => 'images/subcategories/subcategory.jpg',
+                'city'          => 'lahore'
+            ]);
+
+            SubCategory::create([
+                'category_id'   => 1,
+                'name'          => 'subcategory 4'.$i,
+                'image'         => 'images/subcategories/subcategory.jpg',
+                'city'          => 'lahore'
+            ]);
+
+            SubCategory::create([
+                'category_id'   => 2,
                 'name'          => 'subcategory '.$i,
                 'image'         => 'images/subcategories/subcategory.jpg',
                 'city'          => 'lahore'
@@ -29,14 +57,7 @@ class SubCategorySeeder extends Seeder
             ]);
 
             SubCategory::create([
-                'category_id'   => 3,
-                'name'          => 'subcategory '.$i,
-                'image'         => 'images/subcategories/subcategory.jpg',
-                'city'          => 'lahore'
-            ]);
-
-            SubCategory::create([
-                'category_id'   => 4,
+                'category_id'   => 2,
                 'name'          => 'subcategory '.$i,
                 'image'         => 'images/subcategories/subcategory.jpg',
                 'city'          => 'lahore'

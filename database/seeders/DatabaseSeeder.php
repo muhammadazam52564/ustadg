@@ -11,15 +11,15 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run(){
-        // \App\Models\User::factory(10)->create();
         $this->call(UserSeeder::class);
+        $this->call(CitySeeder::class);
         $this->call(AddressSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(SubCategorySeeder::class);
-        $this->call(ServiceSeeder::class);
-        $this->call(BannerSeeder::class);
-        $this->call(OrderSeeder::class);
-        $this->call(OrderItemSeeder::class);
+        // $this->call(CategorySeeder::class);
+        // $this->call(SubCategorySeeder::class);
+        // $this->call(ServiceSeeder::class);
+        // $this->call(BannerSeeder::class);
+        // $this->call(OrderSeeder::class);
+        // $this->call(OrderItemSeeder::class);
 
 
     }

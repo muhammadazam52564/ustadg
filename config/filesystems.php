@@ -56,6 +56,23 @@ return [
             'driver' => 'local',
             'root'   => public_path() . '/profile_images',
         ],
+        'domains' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/domains',
+        ],
+        'category_images' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/category_images',
+        ],
+
+        'banners' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/banners',
+        ],
+        'service_image' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/service_image',
+        ],
 
     ],
 

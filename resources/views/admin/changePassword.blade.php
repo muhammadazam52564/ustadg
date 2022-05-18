@@ -1,4 +1,7 @@
 @extends('layouts.admin.app')
+@section('title')
+    Settings
+@endsection
 @section('content')
 <div class="container">
     <div class="row">

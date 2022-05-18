@@ -4,11 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="_token" content="{{ csrf_token() }}" />
-        <title>{{ config('app.name') }}</title>
+        <title> @yield('title') | {{ config('app.name') }}</title>
         <link rel="stylesheet" href="http://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css">
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             body {
@@ -20,6 +21,10 @@
                 border-radius: 4px;
                 padding-left: 8px;
                 outline: none;
+            }
+            .li-active {
+                color: #7386D5;
+                background: #fff;
             }
             p {
                 font-family: 'Poppins', sans-serif;
