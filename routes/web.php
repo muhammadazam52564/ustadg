@@ -19,6 +19,19 @@ Route::group(['prefix'=> 'admin', 'middleware'=>['isAdmin', 'auth', 'PreventBack
 
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
+
+    Route::get('/notifications', [AdminController::class, 'notifications'])->name('admin.notifications');
+
+
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/get-users', [AdminController::class, 'get_users'])->name('admin.get-users');
+    Route::get('/delete-user/{id}', [AdminController::class, 'delete_user'])->name('admin.delete-user');
+    Route::get('/status-updte-user/{id}/{status}', [AdminController::class, 'user_status'])->name('admin.status-updte-user');
+
+    
+    
     // 
     // 
     Route::get('/cities', [AdminController::class, 'cities'])->name('admin.cities');

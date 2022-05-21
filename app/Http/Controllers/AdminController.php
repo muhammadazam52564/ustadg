@@ -19,7 +19,88 @@ class AdminController extends Controller
     public function index(Request $request){
         return view('admin.dashboard');
     }
+    // 
+    // 
+    public function notifications()
+    {
+        return view('admin.notifications');
+    }
+    // 
+    // 
+    public function users()
+    {
+        return view('admin.users');
+    }
+    public function get_users()
+    {
+        try{
 
+            $users = User::where('role', 2)->orderBy('id', 'DESC')->get();
+            return response()->json([
+                'status'    => true,
+                'message'   => "Users List",
+                'data'      => $users
+            ], 200);
+
+        }catch(\Exception $e){
+
+            return response()->json([
+                'status'    => false,
+                'error'     => $e->getMessage(),
+                'data'      => null
+            ], 400);
+        }
+
+    }
+
+    public function user_status($id, $status)
+    {
+        try{
+            $user = User::find($id);
+            $msg;
+            if ($status == 1 && $user->status == 0) 
+            {
+                $msg = "User Verified Successfully";
+            }
+            else if ($status == 1 && $user->status == 2) 
+            {
+                $msg = "User Unblocked Successfully";
+            }
+            else if ($status == 2) 
+            {
+                $msg = "User blocked Successfully";
+            }
+            else
+            {
+                $msg = "User status updated Successfully";
+            }
+            $user->status = $status;
+            $user->save();
+            return response()->json([
+                'status'    => true,
+                'message'   => $msg,
+                'data'      => null
+            ], 200);
+        }catch(\Exception $e){
+
+            return response()->json([
+                'status'    => false,
+                'error'     => $e->getMessage(),
+                'data'      => null
+            ], 400);
+        }
+
+    }
+
+
+    public function delete_user($id){
+        $user = User::find($id)->delete();
+        return response()->json([
+            'status'    => true,
+            'message'   => "User deleted Successfully",
+            'data'      => null
+        ], 200);
+    }
     // 
     // 
     public function cities(Request $request){

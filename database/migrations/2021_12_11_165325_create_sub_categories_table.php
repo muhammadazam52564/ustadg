@@ -20,6 +20,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('name');
             $table->string('image');
             $table->string('city');
+            $table->integer('enable')->default(1);
             $table->timestamps();
         });
     }

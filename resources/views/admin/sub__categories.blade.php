@@ -6,10 +6,12 @@
 <div class="container">
 
     <div class="row">
-    <div class="col-md-12 py-2 pb-3 d-flex justify-content-between">
-        <h3>Sub Categories</h3>
-        <button onclick="subcatmodal_operType(0)" class="btn btn-success fa fa-plus"></button>
+        <div class="col-md-12 py-2 pb-3 d-flex justify-content-between">
+            <h3>Sub Categories</h3>
+            <button onclick="subcatmodal_operType(0)" class="btn btn-success fa fa-plus"></button>
+        </div>
     </div>
+    <div class="row p-md-5">
         <div class="col-md-12 overflow-auto shadow p-5 mb-5 bg-white rounded">
             <table class="table" id="sub_category_table" style="min-width: 700px">
                 <thead class="thead-light">

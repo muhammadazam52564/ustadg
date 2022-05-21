@@ -7,7 +7,7 @@
         <title> @yield('title') | {{ config('app.name') }}</title>
         <link rel="stylesheet" href="http://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css">
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -207,14 +207,21 @@
                                             <i class="fa fa-bars"></i>
                                         </button>
                                         <div class="d-flex justify-content-between">
-                                            <i
-                                                class="far fa-envelope mr-2 align-self-center"
-                                                style="font-size: 28px; color:#c97a67;"
-                                            ></i>
-                                            <i
-                                                class="far fa-bell align-self-center"
-                                                style="font-size: 28px; color:#c97a67;"
-                                            ></i>
+                                        <div class="dropdown show">
+                                                <b class=" dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="https://picsum.photos/40" class="rounded-circle" alt="Profile Settings">
+                                                    <i class="ml-4 fa-solid fa-caret-down"></i>
+                                                </b>
+                                                <div class="drop_down dropdown-menu shadow p-3 mb-5 bg-white rounded" aria-labelledby="dropdownMenuLink" style="margin-left: -50px">
+                                                    <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
+                                                    <a class="dropdown-item" href="#">App Settings</a>
+                                                    <a class="dropdown-item" href="#">
+                                                        <label id="label" for="logout"  style="cursor: pointer">
+                                                            Logout
+                                                        </label>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -231,7 +238,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>\
+        <script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
         <script src="{{ asset('js/script.js') }}" defer></script>
         @if(session()->has('msg'))
             <script>

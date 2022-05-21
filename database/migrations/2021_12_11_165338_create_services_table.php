@@ -27,6 +27,8 @@ class CreateServicesTable extends Migration
             $table->string('price')->nullable();
             $table->string('city')->nullable();
             $table->string('rate')->nullable();
+            $table->integer('trending')->default(0);
+            $table->integer('enable')->default(1);
             $table->timestamps();
         });
     }

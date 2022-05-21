@@ -20,19 +20,16 @@ class UserSeeder extends Seeder
             'email_verified_at' => Carbon::now(),
             'role'      => 1
         ]);
-        User::create([
-            'name'      => 'Muhammad Azam',
-            'email'     => 'muhammadazam123@gmail.com',
-            'password'  => bcrypt('123456'),
-            'email_verified_at' => Carbon::now(),
-            'role'      => 2
-        ]);
-        User::create([
-            'name'      => 'Muhammad Azam',
-            'email'     => 'muhammadazam5@gmail.com',
-            'password'  => bcrypt('123456'),
-            'email_verified_at' => Carbon::now(),
-            'role'      => 3
-        ]);
+        for ($i=0; $i < 5; $i++) { 
+            User::create([
+                'name'      => 'user'.$i,
+                'email'     => 'user'.$i.'@gmail.com',
+                'phone'     => '+92302461806'.$i,
+
+                'password'  => bcrypt('123456'),
+                'email_verified_at' => Carbon::now(),
+                'role'      => 2
+            ]);
+        }
     }
 }

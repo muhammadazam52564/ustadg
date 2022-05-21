@@ -4,12 +4,13 @@
 @endsection
 @section('content')
 <div class="container">
-
     <div class="row">
-    <div class="col-md-12 py-2 pb-3 d-flex justify-content-between">
-        <h3> Services </h3>
-        <button onclick="serviceModal_operType(0)" class="btn btn-success fa fa-plus"></button>
+        <div class="col-md-12 py-2 pb-3 d-flex justify-content-between">
+            <h3> Services </h3>
+            <button onclick="serviceModal_operType(0)" class="btn btn-success fa fa-plus"></button>
+        </div>
     </div>
+    <div class="row p-md-5">
         <div class="col-md-12 overflow-auto shadow p-5 mb-5 bg-white rounded">
             <table class="table" id="services_table" style="min-width: 850px">
                 <thead class="thead-light">
@@ -44,6 +45,20 @@
                     element.innerHTML = "";
                     let inc = 0;
                     for (const i of res.data) {
+                        if(i.trending === 0){
+                            btn =   '<div class="custom-control custom-switch">' +
+                                        '<img src="/images/loading.gif" width="30px" height="30px" id="loading_image_'+i.id+'" class="d-none">' +
+                                        '<input type="checkbox" class="custom-control-input" id="trending_'+ i.id +'" onchange="trending('+i.id+', 1)">' +
+                                        '<label class="custom-control-label" for="trending_'+i.id+'"></label>' +
+                                    '</div>'
+
+                        }else{
+                            btn =   '<div class="custom-control custom-switch">' +
+                                        '<img src="/images/loading.gif" width="30px" height="30px" id="loading_image_'+i.id+'" class="d-none" >' +
+                                        '<input type="checkbox" class="custom-control-input" checked="true" id="trending_'+i.id+'" onchange="trending('+i.id+', 0)" >' +
+                                        '<label class="custom-control-label" for="trending_'+i.id+'"></label>' +
+                                    '</div>'
+                        }
                         element.innerHTML +=
                             '<tr>' +
                             '<td> ' + inc + 1 + ' </td>' +
@@ -56,9 +71,9 @@
                             '<td> '+ i.price +' </td>' + 
                             '<td> '+ i.price_type +' </td>' + 
                             '<td> '+ i.description +' </td>' + 
-                            '<td> '+ 'Button here' +' </td>' + 
-
-
+                            '<td> '+ 
+                                btn + 
+                            ' </td>' + 
                             '<td>' +
                                 '<button onclick="serviceModal_operType(1, '+ i.id +')" class="btn btn-sm btn-primary fa fa-edit mr-2"></button>' + 
                                 '<a href="#" onclick="delete_service(' + i.id + ')" class="btn btn-sm btn-danger fa fa-trash mb-0"></a> ' + 
@@ -104,6 +119,10 @@
                 });
             });
         });
+
+        function trending(id, status) {
+            alert('we will create or remove trending here ')
+        }
     </script>
 @endpush
 

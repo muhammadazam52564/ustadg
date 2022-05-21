@@ -11,6 +11,8 @@
                 <button class="btn btn-success fa fa-plus" onclick="catModal_operType(0)"> </button>
 
             </div>
+        </div>
+        <div class="row p-md-5">
             <div class="col-md-12 overflow-auto shadow p-5 mb-5 bg-white rounded">
                 <table class="table" id="categories__table" style="min-width: 700px">
                     <thead class="thead-light">

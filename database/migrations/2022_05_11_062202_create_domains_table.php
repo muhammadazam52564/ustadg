@@ -19,6 +19,7 @@ class CreateDomainsTable extends Migration
             $table->string('urdu_name');
             $table->string('image');
             $table->string('city');
+            $table->integer('enable')->default(1);
             $table->timestamps();
         });
     }

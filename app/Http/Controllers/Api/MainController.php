@@ -5,11 +5,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\SubCategory;
-use App\Models\Service;
-use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
+use App\Models\Service;
+use App\Models\Domain;
 use App\Models\Banner;
+use App\Models\Order;
+use App\Models\City;
 use DB;
 
 // status pending
@@ -21,10 +23,42 @@ use DB;
 
 class MainController extends Controller
 {
-    public function categories(Request $request){
+
+    public function domains(Request $request){
         try{
             $validator = \Validator::make($request->all(), [
                 'city' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => false,
+                    'error'     => $validator->errors()->first(),
+                    'data'      => null
+                ], 400);
+            }
+            $city_id = City::where('name', $request->city)->first()->id;
+            $domains = Domain::whereRaw("find_in_set($city_id , city)")->get();
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Domain List',
+                'data'      => $domains,
+            ], 200);
+
+        } catch(\Exception $e){
+
+            return response()->json([
+                'status'    => false,
+                'error'     => $e->getMessage(),
+                'data'      =>  0,
+            ], 400);
+        }
+    }
+
+    public function categories(Request $request){
+        try{
+            $validator = \Validator::make($request->all(), [
+                'domain'    => 'required',
+                'city'      => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -33,7 +67,10 @@ class MainController extends Controller
                     'data' => null
                 ], 400);
             }
-            $category = Category::where('city', $request->city)->get();
+            $city_id = City::where('name', $request->city)->first()->id;
+            $category = Category::whereRaw("find_in_set($city_id , city)")->where('domain_id', $request->domain)->get();
+
+            // $category = Category::where('city', $request->city)->get();
             return response()->json([
                 'status'    => true,
                 'message'   => 'category details',
@@ -63,7 +100,8 @@ class MainController extends Controller
                     'data' => null
                 ], 400);
             }
-            $category = SubCategory::where('category_id', $request->category_id)->where('city', $request->city)->get();
+            $city_id = City::where('name', $request->city)->first()->id;
+            $category = SubCategory::where('category_id', $request->category_id)->whereRaw("find_in_set($city_id , city)")->get();
             return response()->json([
                 'status'    => true,
                 'message'     => 'sub category details',
@@ -84,7 +122,7 @@ class MainController extends Controller
         try{
             $validator = \Validator::make($request->all(), [
                 'sub_category_id'   => 'required',
-                'city'          => 'required',
+                'city'              => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -93,11 +131,13 @@ class MainController extends Controller
                     'data' => null
                 ], 400);
             }
-            $service = Service::where('sub_category_id', $request->sub_category_id)->where('city', $request->city)->get();
+            $city_id = City::where('name', $request->city)->first()->id;
+            $Service = Service::where('sub_category_id', $request->sub_category_id)->whereRaw("find_in_set($city_id , city)")->get();
+            
             return response()->json([
                 'status'    => true,
                 'message'     => 'service details',
-                'data'      => $service->makeHidden(['updated_at', 'created_at']),
+                'data'      => $Service->makeHidden(['updated_at', 'created_at']),
             ], 200);
 
         } catch(\Exception $e){
@@ -112,11 +152,41 @@ class MainController extends Controller
 
     public function trending(Request $request){
         try{
-            $service = Service::where('city', $request->city)->get();
+            $validator = \Validator::make($request->all(), [
+                'domain'   => 'required',
+                'city'     => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'error' => $validator->errors()->first(),
+                    'data' => null
+                ], 400);
+            }
+            $city_id = City::where('name', $request->city)->first()->id;
+            $categories  = Category::whereRaw("find_in_set($city_id , city)")->where('domain_id', $request->domain)->get();
+            $sub_categories;
+            $i = 0;
+            foreach ($categories as  $category) 
+            {
+                if ($i == 0) 
+                {
+                    $sub_categories  = SubCategory::whereRaw("find_in_set($city_id , city)")->where('category_id', $category->id)->get();
+                    $i = 2;
+                }else
+                {
+                    $sub_categories  = $sub_categories->merge(SubCategory::whereRaw("find_in_set($city_id , city)")->where('category_id', $category->id)->get());
+                }
+            }
+            $sub_categories_ids = $sub_categories->pluck('id');
+            
+            // return $sub_categories_ids;
+
+            $Service     = Service::where('trending', 1)->whereIn('sub_category_id', $sub_categories_ids)->whereRaw("find_in_set($city_id , city)")->get();
             return response()->json([
                 'status'    => true,
-                'message'     => 'service details',
-                'data'      => $service->makeHidden(['updated_at', 'created_at']),
+                'message'     => 'Trending Service details',
+                'data'      => $Service->makeHidden(['updated_at', 'created_at']),
             ], 200);
 
         } catch(\Exception $e){
@@ -124,14 +194,43 @@ class MainController extends Controller
             return response()->json([
                 'status'    => false,
                 'error'     => $e->getMessage(),
-                'data'      =>  0,
+                'data'      => null,
             ], 400);
         }
     }
 
     public function search(Request $request){
         try{
-            $service = Service::where('city', $request->city)->where('name', 'LIKE',"%{$request->name}%")->get();
+            $validator = \Validator::make($request->all(), [
+                'domain'    => 'required',
+                'city'      => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'error' => $validator->errors()->first(),
+                    'data' => null
+                ], 400);
+            }
+            $city_id = City::where('name', $request->city)->first()->id;
+            $categories  = Category::whereRaw("find_in_set($city_id , city)")->where('domain_id', $request->domain)->get();
+            $sub_categories;
+            $i = 0;
+            foreach ($categories as  $category) 
+            {
+                if ($i == 0) 
+                {
+                    $sub_categories  = SubCategory::whereRaw("find_in_set($city_id , city)")->where('category_id', $category->id)->get();
+                    $i = 2;
+                }else
+                {
+                    $sub_categories  = $sub_categories->merge(SubCategory::whereRaw("find_in_set($city_id , city)")->where('category_id', $category->id)->get());
+                }
+            }
+            $sub_categories_ids = $sub_categories->pluck('id');
+            
+            $service     = Service::whereIn('sub_category_id', $sub_categories_ids)->whereRaw("find_in_set($city_id , city)")->where('name', 'LIKE',"%{$request->name}%")->get();
+
             return response()->json([
                 'status'    => true,
                 'message'     => 'service details',
@@ -148,16 +247,28 @@ class MainController extends Controller
         }
     }
 
-    public function notifications(Request $request){
-        return "notifications";
-    }
-
     public function banner(Request $request){
-        $service = Banner::where('city', $request->city)->where('category_id', $request->category)->get();
+        
+        $validator = \Validator::make($request->all(), [
+            'domain'    => 'required',
+            'city'      => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()->first(),
+                'data' => null
+            ], 400);
+        }
+        $city_id = City::where('name', $request->city)->first()->id;
+        $baner = Banner::where('domain_id', $request->domain)->whereRaw("find_in_set($city_id , city)")->get();
+            
+        // $service = Banner::where('city', $request->city)->where('category_id', $request->category)->get();
+        
         return response()->json([
             'status'    => true,
             'message'     => 'service details',
-            'data'      => $service->makeHidden(['updated_at', 'created_at']),
+            'data'      => $baner->makeHidden(['updated_at', 'created_at']),
         ], 200);
     }
 
@@ -248,5 +359,9 @@ class MainController extends Controller
             'message'     => 'Orders List',
             'data'      => $orders,
         ], 200);
+    }
+
+    public function notifications(Request $request){
+        return "notifications";
     }
 }

@@ -1,4 +1,7 @@
 @extends('layouts.admin.app')
+@section('title')
+    Home
+@endsection
 @section('content')
 <div class="container-fluid">
     <div class="row py-md-3">
