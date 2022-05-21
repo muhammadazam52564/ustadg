@@ -19,14 +19,14 @@ class AdminController extends Controller
     public function index(Request $request){
         return view('admin.dashboard');
     }
-    // 
-    // 
+
+
     public function notifications()
     {
         return view('admin.notifications');
     }
-    // 
-    // 
+
+    
     public function users()
     {
         return view('admin.users');
@@ -52,7 +52,6 @@ class AdminController extends Controller
         }
 
     }
-
     public function user_status($id, $status)
     {
         try{
@@ -91,8 +90,6 @@ class AdminController extends Controller
         }
 
     }
-
-
     public function delete_user($id){
         $user = User::find($id)->delete();
         return response()->json([
@@ -101,8 +98,8 @@ class AdminController extends Controller
             'data'      => null
         ], 200);
     }
-    // 
-    // 
+
+
     public function cities(Request $request){
         return view('admin.cities');
     }
@@ -146,8 +143,7 @@ class AdminController extends Controller
         }
     }
 
-    // 
-    // 
+
     public function domains(Request $request)
     {
         return view('admin.domains');
@@ -203,8 +199,7 @@ class AdminController extends Controller
         }
     }
 
-    // 
-    // 
+
     public function banners($id = null,  Request $request){
 
         $domains = Domain::orderBy('id', 'DESC')->get();
@@ -256,7 +251,6 @@ class AdminController extends Controller
             ], 200);
         }
     }
-
     public function delete_banner($id){
         $banner = Banner::find($id)->delete();
         return response()->json([
@@ -266,14 +260,12 @@ class AdminController extends Controller
         ], 200);
     }
 
-    // 
-    // 
+
     public function categories(Request $request)
     {
         $domains = Domain::all();
         return view('admin.categories', compact('domains'));
     }
-
     public function get_categories($id, Request $request){
         $categories = Category::orderBy('id', 'DESC');
         if ($id !== 'all') 
@@ -289,7 +281,6 @@ class AdminController extends Controller
             'data'      => $categories
         ], 200);
     }
-
     public function delete__category($id){
         $categories = Category::find($id)->delete();
         return response()->json([
@@ -298,7 +289,6 @@ class AdminController extends Controller
             'data'      => null
         ], 200);
     }
-    
     public function add_edit_category(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -333,14 +323,12 @@ class AdminController extends Controller
         }
     }
 
-    // 
-    // 
+
     public function sub__categories(Request $request)
     {
         $cat =  Category::find($request->id);
         return view('admin.sub__categories', compact('cat'));
     }
-
     public function add_edit_sub_category(Request $request)
     {
         // return $request->all();
@@ -375,7 +363,6 @@ class AdminController extends Controller
             ], 200);
         }
     }
-
     public function get_sub_categories($id, Request $request){
         $subcategories = SubCategory::where('category_id', $id)->orderBy('id', 'DESC')->get();
         return response()->json([
@@ -384,7 +371,6 @@ class AdminController extends Controller
             'data'      => $subcategories
         ], 200);
     }
-    
     public function delete_sub_category($id){
         $categories = Category::find($id)->delete();
         return response()->json([
@@ -394,14 +380,12 @@ class AdminController extends Controller
         ], 200);
     }
 
-    // 
-    // 
+
     public function services(Request $request)
     {
         $sub_category = SubCategory::find($request->id);
         return view('admin.services', compact('sub_category'));
     }
-
     public function get_services(Request $request){
         $services = Service::orderBy('id', 'DESC')->get();
         return response()->json([
@@ -410,7 +394,6 @@ class AdminController extends Controller
             'data'      => $services
         ], 200);
     }
-
     public function add_edit_service(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -455,7 +438,6 @@ class AdminController extends Controller
             ], 200);
         }
     }
-
     public function delete_service($id){
         $service = Service::find($id)->delete();
         return response()->json([
@@ -465,11 +447,11 @@ class AdminController extends Controller
         ], 200);
     }
 
+
     public function change_password(Request $request)
     {
         return view('admin.changePassword');
     }
-
     public function update_password(Request $request)
     {
         if (Hash::check($request->curr__password, Auth::user()->password)) {
@@ -483,12 +465,10 @@ class AdminController extends Controller
 
         }
     }
-
     public function change_email(Request $request)
     {
         return view('admin.changeEmail');
     }
-
     public function update_email(Request $request)
     {
         if (Hash::check($request->password, Auth::user()->password)) {

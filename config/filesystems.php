@@ -73,6 +73,10 @@ return [
             'driver' => 'local',
             'root'   => public_path() . '/service_image',
         ],
+        'order' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/order',
+        ],
 
     ],
 

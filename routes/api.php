@@ -25,6 +25,7 @@ Route::post('/trending', [MainController::class, 'trending']);
 Route::post('/search', [MainController::class, 'search']);
 Route::post('/notifications', [MainController::class, 'notifications']);
 Route::post('/banner', [MainController::class, 'banner']);
+Route::post('/points', [MainController::class, 'points']);
 
 
 Route::post('/order', [MainController::class, 'order']);

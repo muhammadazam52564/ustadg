@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\SubCategory;
@@ -10,8 +11,10 @@ use App\Models\Address;
 use App\Models\Service;
 use App\Models\Domain;
 use App\Models\Banner;
+use App\Models\Point;
 use App\Models\Order;
 use App\Models\City;
+use Carbon\Carbon;
 use DB;
 
 // status pending
@@ -19,7 +22,6 @@ use DB;
 // status completed
 // status canceled
 // status removed
-
 
 class MainController extends Controller
 {
@@ -272,8 +274,41 @@ class MainController extends Controller
         ], 200);
     }
 
-    public function order(Request $request)
-    {
+    public function points(Request $request){
+        
+        try
+        {
+            $validator = \Validator::make($request->all(), [
+                'user_id'    => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'error' => $validator->errors()->first(),
+                    'data' => null
+                ], 400);
+            }
+            $points = Point::where('user_id', $request->user_id)->first();
+            if ($points) {
+                $points = [
+                    'points' => $points->total_points
+                ];
+            }
+            return response()->json([
+                'status'        => true,
+                'message'       => 'Total Points',
+                'data'          => $points
+            ], 200);
+        } catch(\Exception $e){
+            return response()->json([
+                'status'    => false,
+                'error'     => $e->getMessage(),
+                'data'      =>  null,
+            ], 400);
+        }
+    }
+
+    public function order(Request $request){
         try{
 
             $validator = \Validator::make($request->all(), [
@@ -287,18 +322,23 @@ class MainController extends Controller
                 ], 400);
             }
             $order = new Order;
-            $order->user_id = $request->user_id;
-            $order->date    = $request->date;
-            $order->time    = $request->time;
+            $order->user_id             = $request->user_id;
+            $order->date                = $request->date;
+            $order->time                = date('H:i', strtotime($request->time));
             $order->selected_address    = $request->selected_address;
-
-
+            $order->description    = $request->description;
+            if ($request->has('image')) 
+            {
+                $newfilename = time() .'.'. $request->image->getClientOriginalExtension();
+                $request->file('image')->move(public_path("order"), $newfilename);
+                $order->image = 'order/'.$newfilename;
+            }
             if($order->save()){
                 foreach ($request->items as $order_items){
-                    $item = new OrderItem;
-                    $item->order_id = $order->id;
-                    $item->service_id = $order_items['service_id'];
-                    $item->number = $order_items['qty'];
+                    $item               = new OrderItem;
+                    $item->order_id     = $order->id;
+                    $item->service_id   = $order_items['service_id'];
+                    $item->total_items  = $order_items['qty'];
                     $item->save();
                     $service = Service::find($item->service_id);
                     $service->orders = $service->orders + $order_items['qty'];;
@@ -362,6 +402,31 @@ class MainController extends Controller
     }
 
     public function notifications(Request $request){
-        return "notifications";
+        try{
+            $validator = \Validator::make($request->all(), [
+                'user_id'   => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'error'  => $validator->errors()->first(),
+                    'data'   => null
+                ], 400);
+            }
+            $notification = Notification::where('user_id', $request->user_id)->get();
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Notifications List',
+                'data'      => $notification,
+            ], 200);
+        } 
+        catch(\Exception $e)
+        {
+            return response()->json([
+                'status'    => false,
+                'error'     => $e->getMessage(),
+                'data'      =>  null,
+            ], 400);
+        }
     }
 }

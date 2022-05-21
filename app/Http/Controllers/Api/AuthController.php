@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use App\Models\Address;
+use App\Models\Point;
+use App\Models\User;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -34,13 +35,18 @@ class AuthController extends Controller
                 $user->phone = $request->phone;
                 $user->otp = 1234;
                 $user->password = bcrypt($request->password);
-                if ( $user->save()) {
-                    $user1 = User::where('email', $request->email)->get();
-                    return response()->json([
-                        'status' => true,
-                        'message' => 'SignUp Successfully ',
-                        'data' =>  $user1->makeHidden(['verified_at', 'updated_at', 'created_at']),
-                    ]  , 200);
+                if ( $user->save()) 
+                {
+                    $point               = new Point;
+                    $point->total_points = 0; 
+                    $point->user_id      =  $user->id; 
+                    if ($point->save()) {
+                        return response()->json([
+                            'status' => true,
+                            'message' => 'Sign Up Successfully',
+                            'data' =>  $user->makeHidden(['verified_at', 'updated_at', 'created_at']),
+                        ]  , 200);
+                    }
                 }
             }
         }catch(\Exception $e){
@@ -408,7 +414,6 @@ class AuthController extends Controller
             }
         }
     }
-    
     public function add_address(Request $request)
     {
         try{
@@ -506,5 +511,6 @@ class AuthController extends Controller
             }
         }
     }
+    
 }
 
