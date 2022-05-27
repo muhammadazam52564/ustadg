@@ -16,8 +16,21 @@ use App\Models\SubCategory;
 
 class AdminController extends Controller
 {
+
+// status pending
+// status accepted
+// status completed
+// status canceled
+// status ongoing
+
     public function index(Request $request){
-        return view('admin.dashboard');
+        $all        = Order::count();
+        $pending    = Order::where('status', 'pending')->count();
+        $ongoing    = Order::where('status', 'ongoing')->count();
+        $completed  = Order::where('status', 'completed')->count();
+        $canceled   = Order::where('status', 'canceled')->count();
+
+        return view('admin.dashboard', compact('all', 'pending', 'ongoing', 'completed', 'canceled'));
     }
 
 
