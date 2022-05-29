@@ -48,7 +48,7 @@
                         if(i.trending === 0){
                             btn =   '<div class="custom-control custom-switch">' +
                                         '<img src="/images/loading.gif" width="20px" height="20px" id="loading_image_'+i.id+'" class="d-none">' +
-                                        '<input type="checkbox" class="custom-control-input" id="trending_'+ i.id +'" onchange="trending('+i.id+', 1)">' +
+                                        '<input type="checkbox" class="custom-control-input" checked="false" id="trending_'+ i.id +'" onchange="trending('+i.id+', 1)">' +
                                         '<label class="custom-control-label" for="trending_'+i.id+'" id="trending_label_'+i.id+'"></label>' +
                                     '</div>'
 
@@ -60,20 +60,20 @@
                                     '</div>'
                         }
 
-                        if(i.enable === 0){
-                            enable  =   '<div class="custom-control custom-switch">' +
-                                        '<img src="/images/loading.gif" width="20px" height="20px" id="ebnable_image_'+i.id+'" class="d-none" >' +
-                                        '<input type="checkbox" class="custom-control-input" id="ebnable_'+ i.id +'" onchange="enable('+i.id+', 1)">' +
-                                        '<label class="custom-control-label" for="ebnable_'+i.id+'" id="ebnable_label_'+i.id+'"></label>' +
-                                    '</div>'
+                        // if(i.enable === 0){
+                        //     enable  =   '<div class="custom-control custom-switch">' +
+                        //                 '<img src="/images/loading.gif" width="20px" height="20px" id="ebnable_image_'+i.id+'" class="d-none" >' +
+                        //                 '<input type="checkbox" class="custom-control-input" id="ebnable_'+ i.id +'" onchange="enable('+i.id+', 1)">' +
+                        //                 '<label class="custom-control-label" for="ebnable_'+i.id+'" id="ebnable_label_'+i.id+'"></label>' +
+                        //             '</div>'
 
-                        }else{
-                            enable  =   '<div class="custom-control custom-switch">' +
-                                        '<img src="/images/loading.gif" width="20px" height="20px" id="ebnable_image_'+i.id+'" class="d-none" >' +
-                                        '<input type="checkbox" class="custom-control-input" checked="true" id="trending_'+i.id+'" onchange="enable('+i.id+', 0)" >' +
-                                        '<label class="custom-control-label" for="trending_'+i.id+'"  id="ebnable_label_'+i.id+'"></label>' +
-                                    '</div>'
-                        }
+                        // }else{
+                        //     enable  =   '<div class="custom-control custom-switch">' +
+                        //                 '<img src="/images/loading.gif" width="20px" height="20px" id="ebnable_image_'+i.id+'" class="d-none" >' +
+                        //                 '<input type="checkbox" class="custom-control-input" checked="true" id="trending_'+i.id+'" onchange="enable('+i.id+', 0)" >' +
+                        //                 '<label class="custom-control-label" for="trending_'+i.id+'"  id="ebnable_label_'+i.id+'"></label>' +
+                        //             '</div>'
+                        // }
 
                         element.innerHTML +=
                             '<tr>' +
@@ -81,7 +81,7 @@
                             '<td>' + i.id + '</td>' +
                             '<td>' + i.name + '</td>' +
                             '<td>' +
-                            '<img src="../../' + i.image +
+                            '<img src="../../../' + i.image +
                             '" class="" style="max-width:140px; max-height:60px"/>' +
                             '</td>' +
                             '<td> '+ i.price +' </td>' + 
