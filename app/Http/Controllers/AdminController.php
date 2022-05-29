@@ -33,13 +33,11 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('all', 'pending', 'ongoing', 'completed', 'canceled'));
     }
 
-
     public function notifications()
     {
         return view('admin.notifications');
     }
 
-    
     public function users()
     {
         return view('admin.users');
@@ -459,6 +457,54 @@ class AdminController extends Controller
             'data'      => null
         ], 200);
     }
+    public function update_status_trnding(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'id'        => 'required',
+            'status'    => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()->first(),
+                'data' => null
+            ], 400);
+        }else{
+            $service             = Service::find($request->id);
+            $service->trending   = $request->status;
+            $service->save();
+            return response()->json([
+                'status'    => true,
+                'message'   => "Status Successfully Updated",
+                'data'      => null
+            ], 200);
+        }
+    }
+
+    public function update_status_enable(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'id'        => 'required',
+            'status'    => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()->first(),
+                'data' => null
+            ], 400);
+        }else{
+            $service             = Service::find($request->id);
+            $service->enable     = $request->status;
+            $service->save();
+            return response()->json([
+                'status'    => true,
+                'message'   => "Status Successfully Updated",
+                'data'      => null
+            ], 200);
+        }
+    }
+    
 
 
     public function change_password(Request $request)

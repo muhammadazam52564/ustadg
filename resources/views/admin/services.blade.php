@@ -47,18 +47,34 @@
                     for (const i of res.data) {
                         if(i.trending === 0){
                             btn =   '<div class="custom-control custom-switch">' +
-                                        '<img src="/images/loading.gif" width="30px" height="30px" id="loading_image_'+i.id+'" class="d-none">' +
+                                        '<img src="/images/loading.gif" width="20px" height="20px" id="loading_image_'+i.id+'" class="d-none">' +
                                         '<input type="checkbox" class="custom-control-input" id="trending_'+ i.id +'" onchange="trending('+i.id+', 1)">' +
-                                        '<label class="custom-control-label" for="trending_'+i.id+'"></label>' +
+                                        '<label class="custom-control-label" for="trending_'+i.id+'" id="trending_label_'+i.id+'"></label>' +
                                     '</div>'
 
                         }else{
                             btn =   '<div class="custom-control custom-switch">' +
-                                        '<img src="/images/loading.gif" width="30px" height="30px" id="loading_image_'+i.id+'" class="d-none" >' +
+                                        '<img src="/images/loading.gif" width="20px" height="20px" id="loading_image_'+i.id+'" class="d-none" >' +
                                         '<input type="checkbox" class="custom-control-input" checked="true" id="trending_'+i.id+'" onchange="trending('+i.id+', 0)" >' +
-                                        '<label class="custom-control-label" for="trending_'+i.id+'"></label>' +
+                                        '<label class="custom-control-label" for="trending_'+i.id+'"  id="trending_label_'+i.id+'"></label>' +
                                     '</div>'
                         }
+
+                        if(i.enable === 0){
+                            enable  =   '<div class="custom-control custom-switch">' +
+                                        '<img src="/images/loading.gif" width="20px" height="20px" id="ebnable_image_'+i.id+'" class="d-none" >' +
+                                        '<input type="checkbox" class="custom-control-input" id="ebnable_'+ i.id +'" onchange="enable('+i.id+', 1)">' +
+                                        '<label class="custom-control-label" for="ebnable_'+i.id+'" id="ebnable_label_'+i.id+'"></label>' +
+                                    '</div>'
+
+                        }else{
+                            enable  =   '<div class="custom-control custom-switch">' +
+                                        '<img src="/images/loading.gif" width="20px" height="20px" id="ebnable_image_'+i.id+'" class="d-none" >' +
+                                        '<input type="checkbox" class="custom-control-input" checked="true" id="trending_'+i.id+'" onchange="enable('+i.id+', 0)" >' +
+                                        '<label class="custom-control-label" for="trending_'+i.id+'"  id="ebnable_label_'+i.id+'"></label>' +
+                                    '</div>'
+                        }
+
                         element.innerHTML +=
                             '<tr>' +
                             '<td> ' + inc + 1 + ' </td>' +
@@ -94,6 +110,7 @@
                 }
             });
         }
+
         $(function() {
             $('#add_edit_service_form').on('submit', function(event) {
                 event.preventDefault();
@@ -120,9 +137,57 @@
             });
         });
 
-        function trending(id, status) {
-            alert('we will create or remove trending here ')
+        function trending(id, status) 
+        {
+            let image = '#loading_image_' + id;
+            let label = '#trending_label_' + id;
+            $(image).removeClass('d-none')
+            $(label).addClass('d-none')
+            
+            let url = '/admin/update-status-trnding';
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    id,
+                    status
+                },
+                success: function(res) 
+                {
+                    get_services();
+                    $(label).removeClass('d-none')
+                    $(image).addClass('d-none')
+                }
+            });
         }
+
+        function enable(id, status) 
+        {
+            let url = '/admin/update-status-trnding';
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    id,
+                    status
+                },
+                success: function(res) 
+                {
+                    console.log(res);
+                }
+            });
+        }
+
     </script>
 @endpush
 

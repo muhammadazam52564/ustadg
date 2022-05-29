@@ -68,6 +68,11 @@ Route::group(['prefix'=> 'admin', 'middleware'=>['isAdmin', 'auth', 'PreventBack
     Route::post('/add-edit-service', [AdminController::class, 'add_edit_service'])->name('admin.add-edit-service');
     Route::get('/delete-service/{id}', [AdminController::class, 'delete_service'])->name('admin.delete-service');
 
+    Route::post('/update-status-trnding', [AdminController::class, 'update_status_trnding'])->name('admin.update-status-trnding');
+    Route::post('/update-status-enable', [AdminController::class, 'update_status_enable'])->name('admin.update-status-enable');
+
+
+
     Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders');
 
 
