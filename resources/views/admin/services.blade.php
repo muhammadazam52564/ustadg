@@ -48,7 +48,7 @@
                         if(i.trending === 0){
                             btn =   '<div class="custom-control custom-switch">' +
                                         '<img src="/images/loading.gif" width="20px" height="20px" id="loading_image_'+i.id+'" class="d-none">' +
-                                        '<input type="checkbox" class="custom-control-input" checked="false" id="trending_'+ i.id +'" onchange="trending('+i.id+', 1)">' +
+                                        '<input type="checkbox" class="custom-control-input" id="trending_'+ i.id +'" onchange="trending('+i.id+', 1)">' +
                                         '<label class="custom-control-label" for="trending_'+i.id+'" id="trending_label_'+i.id+'"></label>' +
                                     '</div>'
 
