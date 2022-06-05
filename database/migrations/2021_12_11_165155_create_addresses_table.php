@@ -18,9 +18,9 @@ class CreateAddressesTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
-            $table->string('city');
-            $table->string('area');
-            $table->string('street');
+            $table->string('string');
+            $table->string('lat');
+            $table->string('lang');
             $table->timestamps();
         });
     }

@@ -16,9 +16,9 @@ class AddressSeeder extends Seeder
         Address::create([
             'user_id'   => 2,
             'title'     => 'home',
-            'city'      => 'lahore',
-            'area'      => 'johar town',
-            'street'    => '385 J block Johar town lahore'
+            'string'    => '385 J block Johar town lahore',
+            'lat'       => 34.563433,
+            'lang'      => 74.563433
         ]);
     }
 }

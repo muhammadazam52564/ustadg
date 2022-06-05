@@ -420,9 +420,9 @@ class AuthController extends Controller
             $validator = \Validator::make($request->all(), [
                 'user_id'   => 'required',
                 'title'     => 'required',
-                'city'      => 'required',
-                'area'      => 'required',
-                'street'    => 'required',
+                'string'    => 'required',
+                'lat'       => 'required',
+                'lang'      => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -441,11 +441,11 @@ class AuthController extends Controller
                 ], 200);
             }else{
                 $add = new Address;
-                $add->user_id   = $request->user_id ;
-                $add->title     = $request->title ;
-                $add->city      = $request->city ;
-                $add->area      = $request->area ;
-                $add->street    = $request->street ;
+                $add->user_id   = $request->user_id;
+                $add->title     = $request->title;
+                $add->string    = $request->string;
+                $add->lat       = $request->lat;
+                $add->lang      = $request->lang;
                 if($add->save()){
                     return response()->json([
                         'status' => 200,
