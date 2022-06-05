@@ -467,6 +467,49 @@ class AuthController extends Controller
             }
         }
     }
+
+    public function address_list(Request $request)
+    {
+        try{
+            $validator = \Validator::make($request->all(), [
+                'user_id'   => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => false,
+                    'error'     => $validator->errors()->first(),
+                    'data'      => null
+                ], 400);
+            }
+            $user = User::find($request->user_id);
+            if(empty($user))
+            {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'user does not exists!',
+                    'data' => null,
+                ], 200);
+            }else{
+                $add =  Address::where('user_id', $request->user_id)->get();
+                return response()->json([
+                    'status'    => 200,
+                    'message'   => 'Address List',
+                    'data'      => $add,
+                ], 200);
+            }
+
+        }catch(\Exception $e)
+        {
+            if($request->expectsJson)
+            {
+                return response()->json([
+                    'status' => 400,
+                    'error' => $e->getMessage(),
+                    'data'  => null
+                ], 400);
+            }
+        }
+    }
     public function signout(Request $request)
     {
         try{

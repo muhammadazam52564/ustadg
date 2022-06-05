@@ -16,6 +16,7 @@ Route::post('/update_profile_image', [AuthController::class, 'update_profile_ima
 Route::post('/update_profile', [AuthController::class, 'update_profile']);
 Route::post('/change_password', [AuthController::class, 'change_password']);
 Route::post('/add_address', [AuthController::class, 'add_address']);
+Route::post('/address-list', [AuthController::class, 'address_list']);
 
 Route::post('/domains', [MainController::class, 'domains']);
 Route::post('/categories', [MainController::class, 'categories']);
